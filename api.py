@@ -10,8 +10,8 @@ app = FastAPI()
 templates = Jinja2Templates(directory="templates")
 
 
-@app.post("/upload/")
-async def create_upload_files(files: List[UploadFile] = File(...)):
+@app.post("/upload/", response_class=HTMLResponse)
+async def create_upload_files(request: Request, files: List[UploadFile] = File(...)):
     filenames = [file.filename for file in files]
 
     if not filenames[0]:
@@ -27,9 +27,14 @@ async def create_upload_files(files: List[UploadFile] = File(...)):
     
     transcript = manager.create_transcript()
 
-    return {"transcripts": transcript}
+    return templates.TemplateResponse("index.html",
+        {'request': request,
+        'en_transcript': transcript["transcriptions"][0]["utf_text_en"],
+        'hi_transcript': transcript["transcriptions"][0]["utf_text"]
+        })
 
 
 @app.get("/", response_class=HTMLResponse)
 async def index(request: Request):
     return templates.TemplateResponse("index.html", {'request': request})
+

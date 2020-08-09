@@ -10,13 +10,13 @@ OUTPUT_BITRATE = read_config(section="Audio")["WAV_BITRATE"]
 def flac_to_wav(input_filename, input_file, output_filename):
 
     temp_filename = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(16))
-    command = f"ffmpeg -i {os.path.join(AUDIO_FOLDER, input_filename, input_file)} {os.path.join(AUDIO_FOLDER, input_filename, temp_filename)}.wav"
+    command = f"/usr/bin/ffmpeg -i {os.path.join(AUDIO_FOLDER, input_filename, input_file)} {os.path.join(AUDIO_FOLDER, input_filename, temp_filename)}.wav"
     print(command)
     os.system(command)
     
-    command = f"sox {os.path.join(AUDIO_FOLDER, input_filename, temp_filename)}.wav -r {OUTPUT_BITRATE} {os.path.join(AUDIO_FOLDER, input_filename, output_filename)}"
+    command = f"/usr/bin/sox {os.path.join(AUDIO_FOLDER, input_filename, temp_filename)}.wav -r {OUTPUT_BITRATE} {os.path.join(AUDIO_FOLDER, input_filename, output_filename)}"
     print(command)
     os.system(command)
 
-    os.system(f"rm {os.path.join(AUDIO_FOLDER, input_filename, temp_filename)}.wav")
+    os.system(f"/usr/bin/rm {os.path.join(AUDIO_FOLDER, input_filename, temp_filename)}.wav")
     return

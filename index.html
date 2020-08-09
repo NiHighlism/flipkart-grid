@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <!--Import Google Icon Font-->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <!-- Compiled and minified CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+  <!--Let browser know website is optimized for mobile-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link rel='shortcut icon'
+    href='https://d8it4huxumps7.cloudfront.net/uploads/images/150x150/5ee4993e1ea6b_Competition_Logo_GRID_D2C_creatives-01.jpg' />
+  <title>Flipkart GRiD 2 - Submission</title>
+</head>
+
+<body>
+  <style>
+    .col {
+      margin-top: 10px;
+    }
+
+    nav {
+      height: 100px;
+    }
+
+    @media screen and (max-width: 600px) {
+      nav {
+        height: 150px;
+      }
+    }
+  </style>
+  <nav class="indigo accent-3">
+    <div class="nav-wrapper">
+      <a href="#" class="brand-logo center" style="margin-top: 15px;">Flipkart GRiD 2 - Submission</a>
+    </div>
+  </nav>
+  <br>
+  <div class="container row">
+    <div class="col s8 offset-s2 m4 offset-m4">
+      <h5 style="text-align: center;">Upload an audio file for transcript:</h5>
+      <br>
+      <form action="#">
+        <div class="file-field input-field">
+          <div class="file-path-wrapper">
+            <input class="file-path validate" type="text">
+            <input type="file" id="myFile" name="myFile">
+          </div>
+          <br>
+        </div>
+      </form>
+      <br>
+    </div>
+    <div class="col s8 offset-s2 m2 offset-m5 center">
+      <div class="btn teal">
+        <span onclick="handleSubmit()">Submit</span>
+      </div>
+    </div>
+    <div class="col s8 offset-s2 m4 offset-m4 center">
+      <br>
+      <br>
+      <br>
+      <h6 style="text-align: center;">English:</h6>
+      <div id="response-en"></div>
+      <br>
+      <h6 style="text-align: center;">Hindi:</h6>
+      <div id="response-hi"></div>
+    </div>
+  </div>
+  <!-- Compiled and minified JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <script>
+    function handleSubmit(e) {
+      var x = document.getElementById("myFile");
+      if (!x.files.length)
+        alert("Please select a file!")
+      else {
+        const fd = new FormData();
+        fd.append('avatar', x.files[0]);
+
+        let options = { method: 'GET', body: fd };
+
+        let fetchRes = fetch("/upload", options);
+        fetchRes
+          .then(res => res.json())
+          .then(d => {
+            document.getElementById("response-en").innerHTML = d.en_transcript;
+            document.getElementById("response-hi").innerHTML = d.hi_transcript;
+          })
+          .catch(err => console.log(err));
+      }
+    }
+  </script>
+</body>
+
+</html>
